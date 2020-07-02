@@ -58,7 +58,7 @@ app.get('/posts/:postsId', (req: Request, res: Response) => {
   const { postsId } = req.params;
 
   //查找具体内容
-  const post = data.filter(item => item.id == postsId);
+  const post = data.filter(item => item.id == parseInt(postsId, 10));
 
   //给客户端响应内容
   res.send(post[0]);
