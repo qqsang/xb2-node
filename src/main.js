@@ -38,6 +38,10 @@ const data = [
 app.post('/posts', (req, res) => {
   //获取请求里的数据
   const { content, age } = req.body;
+
+  //设置响应状态码
+  res.status(201);
+
   //作出响应
   res.send({ message: `成功创建了内容：${content},${age}` });
 });
