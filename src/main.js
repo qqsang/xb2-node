@@ -31,9 +31,17 @@ const data = [
     id: 3
   }
 ];
-app.get('/posts', (req, res) => {
-  res.send(data);
+/**
+ * 创建内容
+ */
+
+app.post('/posts', (req, res) => {
+  //获取请求里的数据
+  const { content, age } = req.body;
+  //作出响应
+  res.send({ message: `成功创建了内容：${content},${age}` });
 });
+
 app.get('/posts/:postsId', (req, res) => {
   //console.log(req.params);
   //获取postsId
@@ -46,4 +54,5 @@ app.get('/posts/:postsId', (req, res) => {
   res.send(post[0]);
   //console.log(post);
 
-})
+});
+
