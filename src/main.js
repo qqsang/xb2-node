@@ -44,6 +44,8 @@ app.post('/posts', (req, res) => {
 
   //输出头部数据
   console.log(req.headers.abc);
+  //给客户端响应头部数据
+  res.set('abc', 'ahahahahaha');
 
   //作出响应
   res.send({ message: `成功创建了内容：${content},${age}` });
