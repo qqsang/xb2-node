@@ -1,4 +1,5 @@
 import express from 'express';
+import { Request, Response } from 'express';
 const app = express();
 const port = 3000;
 /**
@@ -10,7 +11,7 @@ app.listen(port, () => {
   console.log('服务已启动');
 })
 
-app.get('/', (req, res) => {
+app.get('/', (req: Request, res: Response) => {
   res.send('你好');
 });
 
@@ -35,7 +36,7 @@ const data = [
  * 创建内容
  */
 
-app.post('/posts', (req, res) => {
+app.post('/posts', (req: Request, res: Response) => {
   //获取请求里的数据
   const { content, age } = req.body;
 
@@ -51,7 +52,7 @@ app.post('/posts', (req, res) => {
   res.send({ message: `成功创建了内容：${content},${age}` });
 });
 
-app.get('/posts/:postsId', (req, res) => {
+app.get('/posts/:postsId', (req: Request, res: Response) => {
   //console.log(req.params);
   //获取postsId
   const { postsId } = req.params;
