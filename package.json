@@ -2,8 +2,5 @@
   "name": "xb2-node",
   "description": "xb2-node,跟着王皓学技术",
   "author": "李善创",
-  "version": "1.0.0",
-  "dependencies": {
-    "express": "^4.17.1"
-  }
+  "version": "1.0.0"
 }
