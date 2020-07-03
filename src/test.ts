@@ -14,3 +14,21 @@ app.listen(port, () => {
 app.get("/", (req: Request, res: Response) => {
   res.send("Hi tester~");
 });
+
+const data = [
+  {
+    id: 1,
+    name: "lsc",
+    sex: "nan",
+  },
+  {
+    id: 2,
+    name: "fal",
+    sex: "nv",
+  },
+  {
+    id: 3,
+    name: "llz",
+    sex: "nan",
+  },
+];
