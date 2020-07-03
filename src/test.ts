@@ -5,6 +5,7 @@ import express from "express";
  * 所以，要从express引入进来。这样理解对吗？
  */
 import { Request, Response } from "express";
+import { isConstructorDeclaration } from "typescript";
 const app = express();
 const port = 3000;
 
@@ -70,6 +71,9 @@ app.get("/posts/:postId", (req: Request, res: Response) => {
 app.post("/posts", (req: Request, res: Response) => {
   const { content } = req.body;
   //console.log(content);
+  //获得请求的头部数据
+  const header = req.headers["abc"];
+  console.log(header);
   //在响应之前设置状态码，
   res.status(202);
   //作出响应
