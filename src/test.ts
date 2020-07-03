@@ -1,15 +1,6 @@
-const data = [
-  {
-    name: 'lsc',
-    age: 18
-  },
-  {
-    name: 'fal',
-    age: 19
-  },
-  {
-    name: 'llz',
-    age: 20
-  }
-];
-console.log(data.filter(item => { return item.age > 19 }));
+import express from "express";
+const app = express();
+const port = 3000;
+app.listen(port, () => {
+  console.log("test服务已启动");
+});
