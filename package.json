@@ -4,7 +4,7 @@
   "author": "李善创",
   "version": "1.0.0",
   "scripts": {
-    "start:dev": "tsc-watch --onSuccess \"node dist/main.js\"",
+    "start:dev": "tsc-watch --onSuccess \"node dist/main.js \"",
     "format": "prettier --write \"src/**/*.ts\""
   },
   "dependencies": {
