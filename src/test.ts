@@ -7,6 +7,9 @@ import express from "express";
 import { Request, Response } from "express";
 const app = express();
 const port = 3000;
+
+//使用json中间件处理客户端传上来的数据
+app.use(express.json());
 app.listen(port, () => {
   console.log("test服务已启动");
 });
