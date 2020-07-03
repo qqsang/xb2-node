@@ -72,8 +72,10 @@ app.post("/posts", (req: Request, res: Response) => {
   const { content } = req.body;
   //console.log(content);
   //获得请求的头部数据
-  const header = req.headers["abc"];
-  console.log(header);
+  const header1 = req.headers["content-type"];
+  const header2 = req.headers.abc;
+  console.log(header1);
+  console.log(header2);
   //在响应之前设置状态码，
   res.status(202);
   //作出响应
