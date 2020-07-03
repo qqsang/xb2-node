@@ -41,3 +41,21 @@ app.get("/posts", (req: Request, res: Response) => {
   //const jsondata = JSON.stringify(data);//因为express自动帮处理，所以不需要JSON.stringify()转化成json数据格式
   res.send(data);
 });
+
+/**
+ * 定义带参数带json数据接口，客户端带参数访问，服务端响应请求
+ */
+
+app.get("/posts/:postId", (req: Request, res: Response) => {
+  //获取客户端请求参数postId
+  const { postId } = req.params;
+  //console.log(postId);
+
+  //根据客户端请求参数postId，查找服务器对应的内容。
+  const content = data.filter((item) => item.id == parseInt(postId));
+  //console.log(content[0]);
+
+  //响应客户端的请求
+  res.send(content[0]);
+  res.end();
+});
