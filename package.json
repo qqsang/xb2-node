@@ -5,6 +5,7 @@
   "version": "1.0.0",
   "scripts": {
     "start:dev": "tsc-watch --onSuccess \"node dist/main.js \"",
+    "start:test": "tsc-watch --onSuccess \"node dist/test.js \"",
     "format": "prettier --write \"src/**/*.ts\""
   },
   "dependencies": {

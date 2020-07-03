@@ -32,3 +32,12 @@ const data = [
     sex: "nan",
   },
 ];
+
+/**
+ * 创建json数据响应接口
+ */
+
+app.get("/posts", (req: Request, res: Response) => {
+  //const jsondata = JSON.stringify(data);//因为express自动帮处理，所以不需要JSON.stringify()转化成json数据格式
+  res.send(data);
+});
