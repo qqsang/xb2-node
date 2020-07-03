@@ -55,10 +55,23 @@ app.get("/posts/:postId", (req: Request, res: Response) => {
   //console.log(postId);
 
   //根据客户端请求参数postId，查找服务器对应的内容。
-  const content = data.filter((item) => item.id == parseInt(postId));
-  //console.log(content[0]);
+  const posts = data.filter((item) => item.id == parseInt(postId));
+  //console.log(posts[0]);
 
   //响应客户端的请求
-  res.send(content[0]);
+  res.send(posts[0]);
+  res.end();
+});
+
+/**
+ * 创建内容用的应用接口
+ */
+
+app.post("/posts", (req: Request, res: Response) => {
+  const { content } = req.body;
+  //console.log(content);
+  res.send({
+    message: `创建成功，已创建的内容是：${content}`,
+  });
   res.end();
 });
