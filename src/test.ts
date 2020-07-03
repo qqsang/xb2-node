@@ -70,6 +70,9 @@ app.get("/posts/:postId", (req: Request, res: Response) => {
 app.post("/posts", (req: Request, res: Response) => {
   const { content } = req.body;
   //console.log(content);
+  //在响应之前设置状态码，
+  res.status(202);
+  //作出响应
   res.send({
     message: `创建成功，已创建的内容是：${content}`,
   });
