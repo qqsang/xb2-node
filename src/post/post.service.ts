@@ -50,3 +50,16 @@ export const updatePosts = async (postId: number, post: postModel) => {
   const [data] = await connection.promise().query(statement, [post, postId]);
   return data;
 };
+
+/**
+ * 定义删除数据库中内容的接口
+ */
+export const deletePosts = async (postId: number) => {
+  //准备sql删除语句
+  const statement = `
+  DELETE FROM post
+  WHERE id = ?`;
+  //执行删除
+  const [data] = await connection.promise().query(statement, postId);
+  return data;
+};

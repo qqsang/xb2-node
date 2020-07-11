@@ -22,6 +22,12 @@ router.post("/posts", postController.store);
 router.patch("/posts/:postId", postController.update);
 
 /**
+ * 删除内容
+ * 使用控制器中定义的destroy()方法删除内容
+ */
+router.delete("/posts/:postId", postController.destroy);
+
+/**
  * 导出路由
  */
 

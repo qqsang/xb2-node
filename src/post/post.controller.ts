@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import _ from "lodash";
-import { getPosts, creatPosts, updatePosts } from "./post.service";
+import { getPosts, creatPosts, updatePosts, deletePosts } from "./post.service";
 /**
  * 内容列表接口
  * @param req 获取HTTP请求
@@ -70,4 +70,19 @@ export const update = async (
   } catch (error) {
     next(error);
   }
+};
+
+/**
+ * 删除数据库中的数据
+ */
+export const destroy = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  //获取要删除的id
+  const { postId } = req.params;
+  //执行删除
+  const data = await deletePosts(parseInt(postId, 10));
+  res.send(data);
 };
