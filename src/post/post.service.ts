@@ -1,14 +1,52 @@
-export const getPosts = () => {
-  const data = [
-    {
-      content: "云里雾里，还好有你！",
-    },
-    {
-      content: "今天你爱理不理，明天你高攀不起！",
-    },
-    {
-      content: "你永远叫不醒装睡的人，但快递哥能！",
-    },
-  ];
+//引入数据库链接方法
+import { connection } from "../app/database/mysql";
+//引入定义好的post的数据类型
+import { postModel } from "../post/post.model";
+//定义一个服务方法，从数据库拿到数据。从数据库拿数据，需要数据库mysql处理，需要时间，所以用异步函数async。
+export const getPosts = async () => {
+  //定义从数据库拿数据的语句
+  const statement = `
+  SELECT 
+    post.id,
+    post.title,
+    post.content,
+    JSON_OBJECT(
+      'id',user.id,
+      'name',user.name
+    ) as user
+    FROM post
+    LEFT JOIN user
+      ON user.id = post.userId`;
+  //使用connection方法执行上面的sql语句，从数据库拿东西出来。
+  const [data] = await connection.promise().query(statement);
+  //导出拿到的数据。
+  return data;
+};
+
+/**
+ * 定义创建内容的接口
+ */
+export const creatPosts = async (post: postModel) => {
+  //准备查询
+  const statment = `
+  INSERT INTO post
+  SET ?`;
+  //创建查询
+  const [data] = await connection.promise().query(statment, post);
+  //返回数据
+  return data;
+};
+
+/**
+ * 定义更新内容接口
+ */
+export const updatePosts = async (postId: number, post: postModel) => {
+  //准备sql语句，用于更新数据库内容
+  const statement = `
+  UPDATE post
+  SET ?
+  WHERE id=?`;
+  //根据提供的postId更改数据库中的数据；上面的第一个 ？ 由post提供，第二个 ？ 由postId提供
+  const [data] = await connection.promise().query(statement, [post, postId]);
   return data;
 };

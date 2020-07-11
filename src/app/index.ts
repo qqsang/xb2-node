@@ -23,5 +23,4 @@ app.use(express.json());
 
 app.use(postRouter);
 app.use(defaultErrorHandler);
-
 export default app;

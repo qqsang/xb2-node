@@ -3,19 +3,27 @@ export const requesturl = (req: Request, res: Response, next: NextFunction) => {
   console.log(req.url);
   next();
 };
-
+//定义发生错误的默认处理中间件
 export const defaultErrorHandler = (
   error: any,
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
+  //如果遇到错误，在控制台输出错误信息
+  if (error.message) {
+    console.log(error.message);
+  }
   let statusCode: number, message: string;
-  switch (error.message) {
+  //配置默认的错误信息
+  switch (
+    error.message //从error对象中拿到message内容
+  ) {
     default:
       statusCode = 500;
       message = "服务器出了点问题～";
       break;
   }
+  //设置状态码，返回错误信息给客户端
   res.status(statusCode).send({ message });
 };
