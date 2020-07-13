@@ -19,6 +19,14 @@ export const defaultErrorHandler = (
   switch (
     error.message //从error对象中拿到message内容
   ) {
+    case "NAME_IS_REQUIRED":
+      statusCode = 400;
+      message = "请提供用户名";
+      break;
+    case "PASSWORD_IS_REQUIRED":
+      statusCode = 400;
+      message = "请提供密码";
+      break;
     default:
       statusCode = 500;
       message = "服务器出了点问题～";

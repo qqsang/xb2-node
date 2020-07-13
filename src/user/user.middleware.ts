@@ -7,11 +7,12 @@ import * as userService from "./user.service";
 /**
  * 定义一个中间件，验证注册用户的数据
  */
-export const validataUserdata = async (
+export const validataUserData = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
+  console.log("验证用户数据");
   //从客户端提取用户注册时提交上来的数据
   const { name, password } = req.body;
   //验证必填数据
