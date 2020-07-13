@@ -18,12 +18,28 @@ export const createUser = async (user: userModel) => {
 };
 
 /**
+ *
+ * @param GetUserOptions
+ */
+interface GetUserOptions {
+  password?: boolean;
+}
+
+/**
  * 定义一个接口，验证注册的用户名是否存在
  */
-export const getUserByName = async (name: string) => {
+export const getUserByName = async (
+  name: string,
+  options: GetUserOptions = {}
+) => {
+  //从上面定义的GetUserOptions拿点东西进来
+  const { password } = options;
   //准备一条sql查询
   const statement = `
-  SELECT id,name
+  SELECT 
+    id,
+    name
+    ${password ? ",password" : ""}
   FROM user
   WHERE name =?`;
   //执行查询

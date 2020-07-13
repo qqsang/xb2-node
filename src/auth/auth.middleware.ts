@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { getUserByName } from "../user/user.service";
+import * as userService from "../user/user.service";
 /**
  * 验证用户登录数据
  */
@@ -15,7 +15,7 @@ export const validataLoginData = async (
   if (!name) return next(new Error("NAME_IS_REQUIRED"));
   if (!password) return next(new Error("PASSWORD_IS_REQUIRED"));
   //验证用户名是否已经存在
-  const user = await getUserByName(name);
+  const user = await userService.getUserByName(name);
   if (!user) return next(new Error("USER_DOES_NOT_EXIST"));
   next();
 };
