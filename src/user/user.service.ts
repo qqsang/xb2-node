@@ -18,7 +18,7 @@ export const createUser = async (user: userModel) => {
 };
 
 /**
- *
+ *定义一个类型
  * @param GetUserOptions
  */
 interface GetUserOptions {
@@ -30,6 +30,7 @@ interface GetUserOptions {
  */
 export const getUserByName = async (
   name: string,
+  //给可选参数一个默认空值
   options: GetUserOptions = {}
 ) => {
   //从上面定义的GetUserOptions拿点东西进来
