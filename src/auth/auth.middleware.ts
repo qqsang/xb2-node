@@ -8,6 +8,7 @@ export const validataLoginData = async (
   res: Response,
   next: NextFunction
 ) => {
+  console.log("验证用户登录数据");
   //获得用户登录的用户名和密码
   const { name, password } = req.body;
   //验证登录时是否输入了用户名和密码
