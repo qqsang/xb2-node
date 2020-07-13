@@ -2,6 +2,8 @@
  * 定义用户使用的中间件
  */
 import { Request, Response, NextFunction } from "express";
+//导入nodejs原生态的hash包bcrypt
+import bcrypt from "bcrypt";
 import * as userService from "./user.service";
 
 /**
@@ -22,6 +24,21 @@ export const validataUserData = async (
   //验证用户名是否已存在
   const user = await userService.getUserByName(name);
   if (user) return next(new Error("USER_ALREADY_EXIST"));
+
   //下一步
+  next();
+};
+
+//hash 密码
+export const hashPassword = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  //拿到用户的密码
+  const { password } = req.body;
+  //hash加密
+  //用bcrypt包的hash方法加密用户的password
+  req.body.password = await bcrypt.hash(password, 10);
   next();
 };
