@@ -20,14 +20,14 @@ export const createUser = async (user: userModel) => {
 /**
  * 定义一个接口，验证注册的用户名是否存在
  */
-export const getUserByName = (name: string) => {
+export const getUserByName = async (name: string) => {
   //准备一条sql查询
   const statement = `
   SELECT id,name
   FROM user
   WHERE name =?`;
   //执行查询
-  const [data] = connection.promise().query(statement, name);
+  const [data] = await connection.promise().query(statement, name);
   //返回查询到到结果
   return data[0];
 };
