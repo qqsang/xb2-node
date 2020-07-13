@@ -9,10 +9,10 @@ import { userModel } from "./user.model";
  * 创建用户
  * 往数据库插入用户注册的账户信息
  */
-export const createUser = async (post: userModel) => {
+export const createUser = async (user: userModel) => {
   const statement = `
   INSERT INTO user
   SET ?`;
-  const [data] = await connection.promise().query(statement, post);
+  const [data] = await connection.promise().query(statement, user);
   return data;
 };
