@@ -30,7 +30,7 @@ export const login = async (
  * 验证登录的用户身份的处理器
  */
 export const valiata = (req: Request, res: Response, next: NextFunction) => {
+  console.log(req.user);
   //响应状态码
   res.sendStatus(200);
-  console.log(req.user);
 };
