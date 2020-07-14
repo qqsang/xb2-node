@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from "express";
-import * as userService from "../user/user.service";
 //导入签发令牌的服务接口
 import { signToken } from "../auth/auth.service";
 /**
