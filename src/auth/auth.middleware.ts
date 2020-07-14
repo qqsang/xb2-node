@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import * as userService from "../user/user.service";
 import { TokenPayload } from "../auth/auth.interface";
 import { PUBLIC_KEY } from "../app/app.config";
+import { process } from "../auth/auth.service";
 /**
  * 验证用户登录数据
  */
@@ -62,4 +63,40 @@ export const authGuard = (req: Request, res: Response, next: NextFunction) => {
   } catch (error) {
     next(new Error("UNAUTHORIZED"));
   }
+};
+
+/**
+ * 访问控制
+ */
+interface AccessControlOptions {
+  possession?: boolean;
+}
+
+export const accessControl = (options: AccessControlOptions) => {
+  return async (req: Request, res: Response, next: NextFunction) => {
+    console.log("访问控制");
+    //解构选项
+    const { possession } = options;
+    //获取当前用户id
+    const { id: userId } = req.user;
+    //放行管理员
+    if (userId == 1) return next();
+    //准备资源
+    const resourceIdParam = Object.keys(req.params)[0];
+    const resourceType = resourceIdParam.replace("Id", "");
+    const resourceId = parseInt(req.params[resourceIdParam], 10);
+
+    //检查资源拥有权
+    if (possession) {
+      try {
+        const ownResource = await process({ resourceId, resourceType, userId });
+        if (!ownResource) {
+          return next(new Error("USER_DOES_NOT_OWN_RESOURCE"));
+        }
+      } catch (error) {
+        return next(new Error());
+      }
+    }
+    next();
+  };
 };
