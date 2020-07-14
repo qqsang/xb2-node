@@ -37,10 +37,11 @@ export const store = async (
 ) => {
   //接收从客户端发过来的title content
   const { title, content } = req.body;
+  const { id: userId } = req.user;
   //把title content 存到数据库中
   try {
     //用一下定义好的创建内容接口creatPosts(),把数据存入数据库
-    const data = await creatPosts({ title, content });
+    const data = await creatPosts({ title, content, userId });
     //告诉客户端，我存好数据了
     res.status(201).send(data);
   } catch (error) {
