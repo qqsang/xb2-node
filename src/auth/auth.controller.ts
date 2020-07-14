@@ -25,3 +25,11 @@ export const login = async (
     next(error);
   }
 };
+
+/**
+ * 验证登录的用户身份的处理器
+ */
+export const valiata = (req: Request, res: Response, next: NextFunction) => {
+  //响应状态码
+  res.sendStatus(200);
+};

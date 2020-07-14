@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import bcrypt from "bcrypt";
-import * as userService from "../user/user.service";
 import jwt from "jsonwebtoken";
+import * as userService from "../user/user.service";
 import { PUBLIC_KEY } from "../app/app.config";
 /**
  * 验证用户登录数据
@@ -38,13 +38,17 @@ export const authGuard = (req: Request, res: Response, next: NextFunction) => {
   try {
     //提取用户登录请求的头部数据Authorization
     const authorization = req.header("Authorization");
+    //console.log(authorization);
     if (!authorization) throw new Error();
 
     //提取令牌
-    const token = authorization.replace("Bearer", "");
+    //使用replace字符串工具把上面提取到到用户令牌中到‘Bearer ’去掉，有个空格。
+    const token = authorization.replace("Bearer ", "");
+    //console.log(token);
     if (!token) throw new Error();
 
     //验证令牌
+    //用公钥验证一下用户令牌
     jwt.verify(token, PUBLIC_KEY, { algorithms: ["RS256"] });
 
     //下一步
