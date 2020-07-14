@@ -37,7 +37,11 @@ export const authGuard = (req: Request, res: Response, next: NextFunction) => {
   console.log("验证用户身份");
   try {
     //提取用户登录请求的头部数据Authorization
+    //const authorization = req.heades.authorization;  //这种写法也可以。
+    //header("Authorization")  ===  req.heades.authorization
+    // header()方法是从headers这个对象中拿东西
     const authorization = req.header("Authorization");
+
     //console.log(authorization);
     if (!authorization) throw new Error();
 
