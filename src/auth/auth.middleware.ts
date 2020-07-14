@@ -21,5 +21,9 @@ export const validataLoginData = async (
   //验证用户密码
   const matched = await bcrypt.compare(password, user.password);
   if (!matched) return next(new Error("PASSWORD_DOES_NOT_MATCHED"));
+
+  //给登录的用户发放令牌
+  //console.log(user);
+  req.body.user = user;
   next();
 };

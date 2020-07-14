@@ -16,8 +16,9 @@ const publicKeyBase64 = Buffer.from(publicKey).toString("base64");
 
 /**
  * 在终端输出结果
+ * 把输出的结果放到env文件，因为env文件不支持换行，所以要先转换成base64格式
  */
-console.log("\nPrivate Key:");
+console.log("\nPrivate Keybase64:");
 console.log(privateKeyBase64);
-console.log("\nPublic Key");
+console.log("\nPublic Keybase64");
 console.log(publicKeyBase64);
