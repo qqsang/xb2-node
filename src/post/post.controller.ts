@@ -1,6 +1,12 @@
 import { Request, Response, NextFunction } from "express";
 import _ from "lodash";
-import { getPosts, creatPosts, updatePosts, deletePosts } from "./post.service";
+import {
+  getPosts,
+  getPostsById,
+  creatPosts,
+  updatePosts,
+  deletePosts,
+} from "./post.service";
 /**
  * 内容列表接口
  * @param req 获取HTTP请求
@@ -27,6 +33,27 @@ export const index = async (
   }
 };
 
+/**
+ * 定义带参数访问的内容接口
+ * @param req
+ * @param res
+ * @param next
+ */
+export const getPostById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  //获得请求地址的postId参数
+  const { postId } = req.params;
+  //console.log(postId);
+  try {
+    const data = await getPostsById(parseInt(postId, 10));
+    res.send(data);
+  } catch (error) {
+    return next(new Error());
+  }
+};
 /**
  * 创建内容
  */

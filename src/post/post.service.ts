@@ -24,6 +24,29 @@ export const getPosts = async () => {
 };
 
 /**
+ * 定义带参数访问内容的接口服务
+ */
+export const getPostsById = async (postId: number) => {
+  //准备查询
+  const statement = `
+  SELECT 
+    post.id,
+    post.titie,
+    post.content,
+  JSON_OBJECT(
+    'id',user.id,
+    'name',user.name
+  ) as user
+  FROM post
+  LEFT JOIN user
+    ON user.id = post.userId
+  WHERE id=?`;
+  //执行查询
+  const [data] = await connection.promise().query(statement, postId);
+  //返回结果
+  return data;
+};
+/**
  * 定义创建内容的接口
  */
 export const creatPosts = async (post: postModel) => {

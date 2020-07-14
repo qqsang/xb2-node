@@ -11,6 +11,12 @@ const router = express.Router();
 router.get("/posts", requesturl, postController.index);
 
 /**
+ * 根据访问参数返回内容
+ */
+
+router.get("/posts/:postId", requesturl, postController.getPostById);
+
+/**
  * 创建内容
  * 使用控制器中定义的store方法创建内容
  */
