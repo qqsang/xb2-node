@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import * as userService from "../user/user.service";
+import { TokenPayload } from "../auth/auth.interface";
 import { PUBLIC_KEY } from "../app/app.config";
 /**
  * 验证用户登录数据
@@ -53,7 +54,8 @@ export const authGuard = (req: Request, res: Response, next: NextFunction) => {
 
     //验证令牌
     //用公钥验证一下用户令牌
-    jwt.verify(token, PUBLIC_KEY, { algorithms: ["RS256"] });
+    const decoded = jwt.verify(token, PUBLIC_KEY, { algorithms: ["RS256"] });
+    req.user = decoded as TokenPayload;
 
     //下一步
     next();

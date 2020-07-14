@@ -32,4 +32,5 @@ export const login = async (
 export const valiata = (req: Request, res: Response, next: NextFunction) => {
   //响应状态码
   res.sendStatus(200);
+  console.log(req.user);
 };
