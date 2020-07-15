@@ -17,4 +17,8 @@ router.post(
  * 定义带地址参数请求查找文件的路由
  */
 router.get("/files/:fileId/server", fileController.server);
+/**
+ * 定义给客户端返回图像文件信息的接口
+ */
+router.get("/files/:fileId/metadata", fileController.metadata);
 export default router;

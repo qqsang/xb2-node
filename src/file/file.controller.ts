@@ -72,3 +72,25 @@ export const server = async (
     next(error);
   }
 };
+
+/**
+ * 定义一个给客户端响应图像文件的接口处理器
+ */
+export const metadata = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    //拿到客户端请求的fileId
+    const { fileId } = req.params;
+    //执行查询
+    const file = await findFileById(parseInt(fileId, 10));
+    //从查询出来的数据中筛选我们要给客户端响应的数据
+    const data = _.pick(file, ["id", "size", "width", "height", "metadata"]);
+    //给客户端响应数据
+    res.send(data);
+  } catch (error) {
+    next(error);
+  }
+};
