@@ -14,3 +14,17 @@ export const createFile = async (file: FileModel) => {
   //返回结果
   return data;
 };
+
+/**
+ * 定义按id查找文件的服务接口
+ */
+export const findFileById = async (fileId: number) => {
+  //准备查询
+  const statement = `
+  SELECT * FROM file
+  WHERE id = ?`;
+  //执行查询
+  const [data] = await connection.promise().query(statement, fileId);
+  //返回结果
+  return data[0];
+};
