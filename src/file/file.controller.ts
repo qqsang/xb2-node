@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import _ from "lodash";
 import { createFile, findFileById } from "../file/file.service";
-import { parse } from "path";
 
 /**
  * 上传文件
@@ -59,6 +58,7 @@ export const server = async (
   try {
     //查询文件信息
     const file = await findFileById(parseInt(fileId, 10));
+    //console.log(file);
     //作出响应
     res.sendFile(file.filename, {
       //把查找到到文件发送给客户端

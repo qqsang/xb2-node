@@ -25,6 +25,7 @@ export const findFileById = async (fileId: number) => {
   WHERE id = ?`;
   //执行查询
   const [data] = await connection.promise().query(statement, fileId);
+  //console.log(data);
   //返回结果
   return data[0];
 };
