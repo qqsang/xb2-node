@@ -51,7 +51,7 @@ export const getPostById = async (
     const data = await getPostsById(parseInt(postId, 10));
     res.send(data);
   } catch (error) {
-    return next(new Error());
+    return next(error);
   }
 };
 /**

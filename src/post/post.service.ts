@@ -31,7 +31,7 @@ export const getPostsById = async (postId: number) => {
   const statement = `
   SELECT 
     post.id,
-    post.titie,
+    post.title,
     post.content,
   JSON_OBJECT(
     'id',user.id,
@@ -40,7 +40,7 @@ export const getPostsById = async (postId: number) => {
   FROM post
   LEFT JOIN user
     ON user.id = post.userId
-  WHERE id=?`;
+  WHERE post.id=?`;
   //执行查询
   const [data] = await connection.promise().query(statement, postId);
   //返回结果
