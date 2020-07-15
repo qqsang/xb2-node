@@ -37,6 +37,7 @@ export const store = async (
       ...fileInfo,
       userId,
       postId: parseInt(`${postId}`, 10),
+      ...req.fileMetaData, //把从中间件fileProcessor来的req.fileMetaData结构存入数据库
     });
     //作出响应
     res.status(201).send(data);
