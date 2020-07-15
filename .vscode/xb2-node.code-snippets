@@ -1,0 +1,37 @@
+{
+  "Express handle / middleware": {
+    "prefix": "eh",
+    "body": [
+      "/**",
+      " * $1",
+      " * @param req $2",
+      " * @param res $3",
+      " * @param next",
+      " */",
+      "export const ${4:name} = async (",
+      "  req: Request,",
+      "  res: Response,",
+      "  next: NextFunction",
+      ") => {",
+      "  try {",
+      "    $5",
+      "  } catch (error) {",
+      "    next(error);",
+      "  }",
+      "};"
+    ]
+  },
+  "Async function": {
+    "prefix": "asf",
+    "body": [
+      "/**",
+      " * $1",
+      " */",
+      "export const ${2:NAME} = async (",
+      "  $3",
+      ") => {",
+      "  $4",
+      "};"
+    ]
+  }
+}
