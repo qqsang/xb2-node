@@ -3,6 +3,8 @@ import { Request, Response, NextFunction } from "express";
 import multer from "multer";
 //导入 读取和调整 图像文件的包jimp
 import Jimp from "jimp";
+//导入修改文件尺寸的服务接口
+import { imageResizer } from "../file/file.service";
 
 /**
  * 创建一个multer
@@ -33,7 +35,7 @@ export const fileProcessor = async (
   try {
     //读取图像文件
     image = await Jimp.read(path);
-    //console.log(image);//可以调试一下看看控制台输出的图像内容都有啥
+    //console.log(image); //可以调试一下看看控制台输出的图像内容都有啥
   } catch (error) {
     return next(error);
   }
@@ -47,6 +49,9 @@ export const fileProcessor = async (
     height: imageSize.height,
     metadata: JSON.stringify(tags), //把tags对象的内容转换成json字符串格式
   };
+  //调整图像尺寸
+  imageResizer(image, req.file);
+  //console.log(req.file);
   //下一步
   next();
 };

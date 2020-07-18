@@ -1,3 +1,5 @@
+import fs from "fs";
+import path from "path";
 import { Request, Response, NextFunction } from "express";
 import _ from "lodash";
 import { createFile, findFileById } from "../file/file.service";
@@ -60,10 +62,40 @@ export const server = async (
     //查询文件信息
     const file = await findFileById(parseInt(fileId, 10));
     //console.log(file);
+
+    //要提供图像的尺寸,req.query从请求的地址参数获得查询符？后面的字段size。
+    const { size } = req.query;
+    console.log(req.query);
+
+    //准备文件名与目录
+    let filename = file.filename;
+    let root = "uploads";
+    let resized = "resized";
+
+    if (size) {
+      //可用的图像尺寸
+      const imageSizes = ["large", "medium", "thumbnail"];
+
+      //查找文件尺寸是否可用
+      if (!imageSizes.some((item) => item == size)) {
+        throw new Error("FILE_NOT_FOUND");
+      }
+
+      //同步检查一下文件是否存在
+      const fileExit = fs.existsSync(
+        path.join(root, resized, `${filename}-${size}`)
+      );
+
+      //设置文件名与目录
+      if (fileExit) {
+        filename = `${filename}-${size}`;
+        root = path.join(root, resized);
+      }
+    }
     //作出响应
-    res.sendFile(file.filename, {
+    res.sendFile(filename, {
       //把查找到到文件发送给客户端
-      root: "uploads", //文件所在根目录
+      root: root, //文件所在根目录
       headers: {
         "Content-type": file.mimetype, //告诉客户端这个是什么类型的文件
       },
