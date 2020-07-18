@@ -83,15 +83,20 @@ export const server = async (
 
       //同步检查一下文件是否存在
       const fileExit = fs.existsSync(
+        //检查uploads/resized下有没有文件名为{filename}-${size}的文件
         path.join(root, resized, `${filename}-${size}`)
       );
 
       //设置文件名与目录
       if (fileExit) {
+        //如果文件存在，把文件名取出来
         filename = `${filename}-${size}`;
-        root = path.join(root, resized);
+        //把文件路径也取出来
+        root = path.join(root, resized); //把文件路径设置成root/resized，也就是uploads/resized
+        //console.log(root);
       }
     }
+
     //作出响应
     res.sendFile(filename, {
       //把查找到到文件发送给客户端
