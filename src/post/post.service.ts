@@ -106,7 +106,7 @@ export const creatPostTag = async (postId: number, tagId: number) => {
 /**
  * 检查内容是否已经被打了标签
  */
-export const postHasTag = (postId: number, tagId: number) => {
+export const postHasTag = async (postId: number, tagId: number) => {
   //准备查询sql
   const statement = `
   SELECT * FROM post_tag
