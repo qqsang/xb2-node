@@ -102,3 +102,19 @@ export const creatPostTag = async (postId: number, tagId: number) => {
   //提供数据
   return data;
 };
+
+/**
+ * 检查内容是否已经被打了标签
+ */
+export const postHasTag = (postId: number, tagId: number) => {
+  //准备查询sql
+  const statement = `
+  SELECT * FROM post_tag
+  WHERE postId = ? AND tagId = ?
+  `;
+  //执行查询
+  const [data] = await connection.promise().query(statement, [postId, tagId]);
+
+  //提供数据
+  return data[0] ? true : false;
+};
