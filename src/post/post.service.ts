@@ -86,3 +86,19 @@ export const deletePosts = async (postId: number) => {
   const [data] = await connection.promise().query(statement, postId);
   return data;
 };
+
+/**
+ * 创建内容tag
+ */
+export const creatPostTag = async (postId: number, tagId: number) => {
+  //准备查询
+  const statement = `
+    INSERT INTO post_tag (postId,tagId)
+    VALUES(?,?)`;
+
+  //执行查询
+  const [data] = await connection.promise().query(statement, [postId, tagId]);
+
+  //提供数据
+  return data;
+};
