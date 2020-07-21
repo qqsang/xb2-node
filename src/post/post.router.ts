@@ -45,6 +45,15 @@ router.delete(
 );
 
 /**
+ * 定义给内容添加标签的接口
+ */
+router.post(
+  "/posts/:postId/tag",
+  authGuard,
+  accessControl({ possession: true }),
+  postController.storePostTag
+);
+/**
  * 导出路由
  */
 

@@ -6,7 +6,11 @@ import {
   creatPosts,
   updatePosts,
   deletePosts,
+  creatPostTag,
+  postHasTag,
 } from "./post.service";
+import { tagModel } from "../tag/tag.model";
+import { createTag, getTagByName } from "../tag/tag.service";
 /**
  * 内容列表接口
  * @param req 获取HTTP请求
@@ -113,4 +117,55 @@ export const destroy = async (
   //执行删除
   const data = await deletePosts(parseInt(postId, 10));
   res.send(data);
+};
+
+/**
+ * 添加内容标签
+ */
+export const storePostTag = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  //准备数据
+  const { postId } = req.params;
+  const { name } = req.body;
+  let tag: tagModel;
+  //console.log(name);
+
+  //查找标签
+  try {
+    tag = await getTagByName(name);
+  } catch (error) {
+    return next(error);
+  }
+
+  //找到了标签，接着验证改内容是否已存在该标签
+  if (tag) {
+    try {
+      const postTag = await postHasTag(parseInt(postId, 10), tag.id);
+      if (postTag) return next(new Error("POST_ALREADY_HAS_THIS_TAG"));
+    } catch (error) {
+      return next(error);
+    }
+  }
+
+  //没找到标签，就创建这个标签
+  if (!tag) {
+    try {
+      const data = await createTag({ name });
+      //console.log(data);
+      tag = { id: data.insertId };
+    } catch (error) {
+      return next(error);
+    }
+  }
+
+  //给内容打上标签
+  try {
+    await creatPostTag(parseInt(postId, 10), tag.id);
+    res.sendStatus(201);
+  } catch (error) {
+    return next(error);
+  }
 };

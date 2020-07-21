@@ -12,6 +12,7 @@ export const createTag = async (tag: tagModel) => {
 
   //执行查询
   const [data] = await connection.promise().query(statement, tag);
+  //console.log(data);
 
   //返回数据
   return data as any; //返回任意类型的data数据
