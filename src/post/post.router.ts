@@ -53,6 +53,16 @@ router.post(
   accessControl({ possession: true }),
   postController.storePostTag
 );
+
+/**
+ * 定义移除内容标签的接口
+ */
+router.delete(
+  "/posts/:postId/tag",
+  authGuard,
+  accessControl({ possession: true }),
+  postController.destroyPostTag
+);
 /**
  * 导出路由
  */
