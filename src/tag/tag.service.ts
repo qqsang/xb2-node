@@ -33,19 +33,3 @@ export const getTagByName = async (tagName: string) => {
   //提供数据
   return data[0];
 };
-
-/**
- * 定义删除内容标签的服务
- */
-export const deletePostTag = async (postId: number, tagId: number) => {
-  //准备查询sql语句
-  const statement = `
-  DELETE FROM post_tag
-  WHERE postId = ? AND tagId = ?`;
-
-  //执行查询
-  const data = await connection.promise().query(statement, [postId, tagId]);
-
-  //返回数据
-  return data;
-};
