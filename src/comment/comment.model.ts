@@ -3,7 +3,7 @@
  */
 export class CommentModel {
   id?: number;
-  comment?: string;
+  content?: string;
   postId?: number;
   userId?: number;
   parentId?: number;
