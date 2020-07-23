@@ -33,3 +33,23 @@ export const isReplayComment = async (commentId: number) => {
   //提供结果
   return data[0].parentId ? true : false;
 };
+
+/**
+ * 定义修改评论的服务
+ */
+export const updateComment = async (comment: CommentModel) => {
+  //准备数据
+  const { id, content } = comment;
+
+  //准备查询sql
+  const statement = `
+  UPDATE comment
+  SET content = ?
+  WHERE id = ?`;
+
+  //执行查询
+  const [data] = await connection.promise().query(statement, [content, id]);
+
+  //返回结果
+  return data;
+};

@@ -1,5 +1,9 @@
 import { Request, Response, NextFunction } from "express";
-import { createComment, isReplayComment } from "./comment.service";
+import {
+  createComment,
+  isReplayComment,
+  updateComment,
+} from "./comment.service";
 
 /**
  * 定义发表评论用的接口处理器
@@ -63,6 +67,31 @@ export const replay = async (
     const data = await createComment(comment);
     //给客户端响应
     res.status(201).send(data);
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * 定义修改评论的接口处理器
+ */
+export const update = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  //准备数据
+  const { commentId } = req.params;
+  const { content } = req.body;
+
+  const comment = { id: parseInt(commentId, 10), content };
+
+  try {
+    //开始修改评论
+    const data = await updateComment(comment);
+
+    //作出响应
+    res.send(data);
   } catch (error) {
     next(error);
   }
