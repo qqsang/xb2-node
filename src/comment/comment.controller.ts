@@ -49,7 +49,7 @@ export const replay = async (
     userId,
     parentId,
   };
-  /*
+
   //检查是否为回复评论
   try {
     const replay = await isReplayComment(parentId);
@@ -57,7 +57,7 @@ export const replay = async (
   } catch (error) {
     return next(error);
   }
-*/
+
   //现在可以回复评论了
   try {
     const data = await createComment(comment);
