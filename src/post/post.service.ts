@@ -11,7 +11,8 @@ export const getPosts = async () => {
     post.id,
     post.title,
     post.content,
-    ${sqlFragment.user}
+    ${sqlFragment.user},
+    ${sqlFragment.totalcomments}
     FROM post
     ${sqlFragment.leftjoinuser}`;
   //使用connection方法执行上面的sql语句，从数据库拿东西出来。
