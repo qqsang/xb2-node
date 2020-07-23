@@ -6,4 +6,9 @@ const router = express.Router();
  * 定义发表评论的路由
  */
 router.post("/comments", authGuard, commentController.store);
+
+/**
+ * 定义回复评论的路由
+ */
+router.post("/comments/:commentId/replay", authGuard, commentController.replay);
 export default router;
