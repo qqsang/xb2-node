@@ -53,3 +53,19 @@ export const updateComment = async (comment: CommentModel) => {
   //返回结果
   return data;
 };
+
+/**
+ * 定义删除评论的服务
+ */
+export const deleteComment = async (commentId: number) => {
+  //准备删除sql
+  const statement = `
+  DELETE FROM comment
+  WHERE id = ?`;
+
+  //执行删除操作
+  const [data] = await connection.promise().query(statement, commentId);
+
+  //提供结果
+  return data;
+};

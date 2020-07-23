@@ -3,6 +3,7 @@ import {
   createComment,
   isReplayComment,
   updateComment,
+  deleteComment,
 } from "./comment.service";
 
 /**
@@ -89,6 +90,28 @@ export const update = async (
   try {
     //开始修改评论
     const data = await updateComment(comment);
+
+    //作出响应
+    res.send(data);
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * 定义删除评论的接口处理器
+ */
+export const destroy = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  //拿到要删除的评论的id
+  const { commentId } = req.params;
+
+  try {
+    //执行删除评论
+    const data = await deleteComment(parseInt(commentId, 10));
 
     //作出响应
     res.send(data);

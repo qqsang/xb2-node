@@ -22,4 +22,14 @@ router.patch(
   commentController.update
 );
 
+/**
+ * 定义删除评论的路由
+ */
+router.delete(
+  "/comments/:commentId",
+  authGuard,
+  accessControl({ possession: true }),
+  commentController.destroy
+);
+
 export default router;
