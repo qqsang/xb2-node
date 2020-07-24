@@ -22,7 +22,8 @@ export const store = async (
   const { id: userId } = req.user;
   //所属内容
   //req.query可以从地址查询符中提取东西，如/files?post=3,问号后面的post是req.query的属性。
-  const { post: postId } = req.query;
+  const { post } = req.query;
+  const postId = parseInt(`${post}`, 10) || null;
   //准备文件信息
   //_.pick()来自包lodash，它能从某个地方挑选我们想要的东西，重新组建一个对象给我们。
   //req.file中的file来自我们定义的中间件fileInterceptor定义的字段，上传文件时表的请求字段必须包含file
@@ -38,7 +39,7 @@ export const store = async (
     const data = await createFile({
       ...fileInfo,
       userId,
-      postId: parseInt(`${postId}`, 10),
+      postId,
       ...req.fileMetaData, //把从中间件fileProcessor来的req.fileMetaData结构存入数据库
     });
     //作出响应
