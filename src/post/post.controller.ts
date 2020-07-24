@@ -29,7 +29,7 @@ export const index = async (
   // try 先执行，如果有错，就报错，执行catch 板块下面的语句。
   try {
     //用定义好的数据服务方法getPosts()从数据库拿到数据，异步操作。
-    const posts = await getPosts();
+    const posts = await getPosts({ sort: req.sort });
     res.send(posts);
     //如果出错，执行catch
   } catch (error) {

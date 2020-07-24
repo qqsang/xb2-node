@@ -9,6 +9,7 @@ declare global {
     export interface Request {
       user: TokenPayload; //扩展Request 类型，让使用后的请求带着这个属性
       fileMetaData: { width?: number; height?: number; metadata: {} }; //扩展上传图像文件请求类型
+      sort: string;
     }
   }
 }

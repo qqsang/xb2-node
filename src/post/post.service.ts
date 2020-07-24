@@ -3,8 +3,17 @@ import { connection } from "../app/database/mysql";
 //引入定义好的post的数据类型
 import { postModel } from "../post/post.model";
 import { sqlFragment } from "./post.provider";
+
+/**
+ * 排序
+ */
+interface GetPostsOptions {
+  sort?: string;
+}
+
 //定义一个服务方法，从数据库拿到数据。从数据库拿数据，需要数据库mysql处理，需要时间，所以用异步函数async。
-export const getPosts = async () => {
+export const getPosts = async (options: GetPostsOptions) => {
+  const { sort } = options;
   //定义从数据库拿数据的语句
   const statement = `
   SELECT 
@@ -19,7 +28,8 @@ export const getPosts = async () => {
     ${sqlFragment.leftjoinuser}
     ${sqlFragment.leftjoinonefile}
     ${sqlFragment.leftjointag}
-    GROUP BY post.id`;
+    GROUP BY post.id
+    ORDER BY ${sort}`;
   //使用connection方法执行上面的sql语句，从数据库拿东西出来。
   const [data] = await connection.promise().query(statement);
   //导出拿到的数据。
