@@ -13,10 +13,12 @@ export const getPosts = async () => {
     post.content,
     ${sqlFragment.user},
     ${sqlFragment.totalcomments},
-    ${sqlFragment.file}
+    ${sqlFragment.file},
+    ${sqlFragment.tags}
     FROM post
     ${sqlFragment.leftjoinuser}
     ${sqlFragment.leftjoinonefile}
+    ${sqlFragment.leftjointag}
     GROUP BY post.id`;
   //使用connection方法执行上面的sql语句，从数据库拿东西出来。
   const [data] = await connection.promise().query(statement);
