@@ -1,20 +1,20 @@
 import express from "express";
 import * as postController from "../post/post.controller";
 import { authGuard, accessControl } from "../auth/auth.middleware";
-import { sort } from "../post/post.middleware";
+import { sort, filter } from "../post/post.middleware";
 const router = express.Router();
 
 /**
  * 内容列表
  */
 
-router.get("/posts", sort, postController.index);
+router.get("/posts", sort, filter, postController.index);
 
 /**
  * 根据访问参数返回内容
  */
 
-router.get("/posts/:postId", sort, postController.getPostById);
+router.get("/posts/:postId", sort, filter, postController.getPostById);
 
 /**
  * 创建内容

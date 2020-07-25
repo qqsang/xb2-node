@@ -5,15 +5,35 @@ import { postModel } from "../post/post.model";
 import { sqlFragment } from "./post.provider";
 
 /**
+ * 过滤
+ */
+export interface GetPostsOptionsFilter {
+  name: string;
+  sql?: string;
+  param?: string;
+}
+
+/**
  * 排序
  */
 interface GetPostsOptions {
   sort?: string;
+  filter?: GetPostsOptionsFilter;
 }
 
 //定义一个服务方法，从数据库拿到数据。从数据库拿数据，需要数据库mysql处理，需要时间，所以用异步函数async。
 export const getPosts = async (options: GetPostsOptions) => {
-  const { sort } = options;
+  const { sort, filter } = options;
+
+  //SQL参数
+  let params: Array<any> = [];
+
+  //设置SQL参数
+  if (filter.param) {
+    params = [filter.param, ...params];
+    //console.log(filter.param);
+  }
+
   //定义从数据库拿数据的语句
   const statement = `
   SELECT 
@@ -28,10 +48,11 @@ export const getPosts = async (options: GetPostsOptions) => {
     ${sqlFragment.leftjoinuser}
     ${sqlFragment.leftjoinonefile}
     ${sqlFragment.leftjointag}
+    WHERE ${filter.sql}
     GROUP BY post.id
     ORDER BY ${sort}`;
   //使用connection方法执行上面的sql语句，从数据库拿东西出来。
-  const [data] = await connection.promise().query(statement);
+  const [data] = await connection.promise().query(statement, params);
   //导出拿到的数据。
   return data;
 };
