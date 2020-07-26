@@ -14,19 +14,32 @@ export interface GetPostsOptionsFilter {
 }
 
 /**
+ * 分页
+ */
+export interface GetPostsOptionsPagination {
+  limit: number;
+  offset: number;
+}
+
+/**
  * 排序
  */
 interface GetPostsOptions {
   sort?: string;
   filter?: GetPostsOptionsFilter;
+  pagination?: GetPostsOptionsPagination;
 }
 
 //定义一个服务方法，从数据库拿到数据。从数据库拿数据，需要数据库mysql处理，需要时间，所以用异步函数async。
 export const getPosts = async (options: GetPostsOptions) => {
-  const { sort, filter } = options;
+  const {
+    sort,
+    filter,
+    pagination: { limit, offset },
+  } = options;
 
   //SQL参数
-  let params: Array<any> = [];
+  let params: Array<any> = [limit, offset];
 
   //设置SQL参数
   if (filter.param) {
@@ -50,11 +63,39 @@ export const getPosts = async (options: GetPostsOptions) => {
     ${sqlFragment.leftjointag}
     WHERE ${filter.sql}
     GROUP BY post.id
-    ORDER BY ${sort}`;
+    ORDER BY ${sort}
+    LIMIT ?
+    OFFSET ?`;
   //使用connection方法执行上面的sql语句，从数据库拿东西出来。
   const [data] = await connection.promise().query(statement, params);
   //导出拿到的数据。
   return data;
+};
+
+/**
+ * 统计内容数量
+ * @param
+ */
+export const getPostsTotalCount = async (options: GetPostsOptions) => {
+  //从选项参数解构出来filter
+  const { filter } = options;
+  //设置sql参数
+  let params = [filter.param];
+  //准备查询
+  const statement = `
+  SELECT 
+    COUNT(post.id) as totalcount
+  FROM post
+  ${sqlFragment.leftjoinuser}
+  ${sqlFragment.leftjoinonefile}
+  ${sqlFragment.leftjointag}
+  WHERE ${filter.sql}`;
+
+  //执行查询
+  const [data] = await connection.promise().query(statement, params);
+
+  //返回数据
+  return data[0].totalcount;
 };
 
 /**

@@ -1,14 +1,14 @@
 import express from "express";
 import * as postController from "../post/post.controller";
 import { authGuard, accessControl } from "../auth/auth.middleware";
-import { sort, filter } from "../post/post.middleware";
+import { sort, filter, paginate } from "../post/post.middleware";
 const router = express.Router();
 
 /**
  * 内容列表
  */
 
-router.get("/posts", sort, filter, postController.index);
+router.get("/posts", sort, filter, paginate, postController.index);
 
 /**
  * 根据访问参数返回内容

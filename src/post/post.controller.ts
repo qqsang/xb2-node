@@ -9,6 +9,7 @@ import {
   creatPostTag,
   postHasTag,
   deletePostTag,
+  getPostsTotalCount,
 } from "./post.service";
 import { tagModel } from "../tag/tag.model";
 import { createTag, getTagByName } from "../tag/tag.service";
@@ -27,9 +28,23 @@ export const index = async (
   //  return next(new Error());
   //}
   // try 先执行，如果有错，就报错，执行catch 板块下面的语句。
+
+  try {
+    //统计内容数量
+    const totalCount = await getPostsTotalCount({ filter: req.filter });
+    //设置响应头部
+    res.header("X-Total-Count", totalCount);
+  } catch (error) {
+    next(error);
+  }
+
   try {
     //用定义好的数据服务方法getPosts()从数据库拿到数据，异步操作。
-    const posts = await getPosts({ sort: req.sort, filter: req.filter });
+    const posts = await getPosts({
+      sort: req.sort,
+      filter: req.filter,
+      pagination: req.pagination,
+    });
     res.send(posts);
     //如果出错，执行catch
   } catch (error) {
