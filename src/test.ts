@@ -13,6 +13,19 @@ const port = 3000;
 app.use(express.json());
 app.listen(port, () => {
   console.log("test服务已启动");
+  /**
+   * 测试练习回调函数
+   */
+  const natrue = (callback) => {
+    const data = "tree1";
+    callback(data);
+  };
+
+  natrue((data) => {
+    const data2 = [1, 2, 3];
+    const isexs = data2.some((item) => item === data);
+    console.log(isexs);
+  });
 });
 
 app.get("/", (req: Request, res: Response) => {
