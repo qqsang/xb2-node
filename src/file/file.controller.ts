@@ -26,7 +26,7 @@ export const store = async (
   const postId = parseInt(`${post}`, 10) || null;
   //准备文件信息
   //_.pick()来自包lodash，它能从某个地方挑选我们想要的东西，重新组建一个对象给我们。
-  //req.file中的file来自我们定义的中间件fileInterceptor定义的字段，上传文件时表的请求字段必须包含file
+  //req.file中的file是multer添加给request的，上传文件就有。
   const fileInfo = _.pick(req.file, [
     "originalname",
     "mimetype",

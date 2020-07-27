@@ -10,5 +10,6 @@ export const store = async (
   res: Response,
   next: NextFunction
 ) => {
-  res.sendStatus(200);
+  const data = req.file;
+  res.status(200).send(data);
 };
