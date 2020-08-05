@@ -62,6 +62,7 @@ export const getPosts = async (options: GetPostsOptions) => {
     ${sqlFragment.leftjoinuser}
     ${sqlFragment.leftjoinonefile}
     ${sqlFragment.leftjointag}
+    ${filter.name == "userLiked" ? sqlFragment.innerjoinuserlikepost : ""}
     WHERE ${filter.sql}
     GROUP BY post.id
     ORDER BY ${sort}
@@ -90,6 +91,7 @@ export const getPostsTotalCount = async (options: GetPostsOptions) => {
   ${sqlFragment.leftjoinuser}
   ${sqlFragment.leftjoinonefile}
   ${sqlFragment.leftjointag}
+  ${filter.name == "userLiked" ? sqlFragment.innerjoinuserlikepost : ""}
   WHERE ${filter.sql}`;
 
   //执行查询
