@@ -10,6 +10,7 @@ import fileRouter from "../file/file.router";
 import tagRouter from "../tag/tag.router";
 import avatarRouter from "../avatar/avatar.router";
 import commentRouter from "../comment/comment.router";
+import likeRouter from "../like/like.router";
 import { defaultErrorHandler } from "../app/app.middleware";
 /**
  * 创建应用
@@ -34,7 +35,8 @@ app.use(
   fileRouter,
   tagRouter,
   avatarRouter,
-  commentRouter
+  commentRouter,
+  likeRouter
 );
 app.use(defaultErrorHandler);
 export default app;
