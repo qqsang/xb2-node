@@ -111,18 +111,25 @@ export const getPostsById = async (postId: number) => {
     post.id,
     post.title,
     post.content,
-  JSON_OBJECT(
-    'id',user.id,
-    'name',user.name
-  ) as user
-  FROM post
-  LEFT JOIN user
-    ON user.id = post.userId
+    ${sqlFragment.user},
+    ${sqlFragment.totalcomments},
+    ${sqlFragment.file},
+    ${sqlFragment.tags},
+    ${sqlFragment.totallikes}
+    FROM post
+    ${sqlFragment.leftjoinuser}
+    ${sqlFragment.leftjoinonefile}
+    ${sqlFragment.leftjointag}
   WHERE post.id=?`;
   //执行查询
   const [data] = await connection.promise().query(statement, postId);
+
+  //没找到
+  if (!data[0].id) {
+    throw new Error("NOT_FOUND");
+  }
   //返回结果
-  return data;
+  return data[0];
 };
 /**
  * 定义创建内容的接口
