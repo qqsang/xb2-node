@@ -14,4 +14,10 @@ router.post(
   avatarProcessor,
   avatarController.store
 );
+
+/**
+ * 定义头像服务接口
+ */
+router.get("/users/:userId/avatar", avatarController.server);
+
 export default router;
