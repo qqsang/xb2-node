@@ -73,4 +73,11 @@ export const sqlFragment = {
               ) AS JSON
             ) AS tags
   `,
+  totallikes: `
+  (
+    SELECT COUNT(user_like_post.postId)
+    FROM user_like_post
+    WHERE user_like_post.postId = post.id
+  ) AS totallikes
+  `,
 };
