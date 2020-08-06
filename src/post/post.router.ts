@@ -11,10 +11,10 @@ const router = express.Router();
 router.get("/posts", sort, filter, paginate, postController.index);
 
 /**
- * 根据访问参数返回内容
+ * 根据访问单个内容路由
  */
 
-router.get("/posts/:postId", sort, filter, postController.getPostById);
+router.get("/posts/:postId", sort, filter, postController.show);
 
 /**
  * 创建内容

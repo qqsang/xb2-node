@@ -54,16 +54,12 @@ export const index = async (
 };
 
 /**
- * 定义带参数访问的内容接口
+ * 定义单个内容接口处理器
  * @param req
  * @param res
  * @param next
  */
-export const getPostById = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const show = async (req: Request, res: Response, next: NextFunction) => {
   //获得请求地址的postId参数
   const { postId } = req.params;
   //console.log(postId);
@@ -71,7 +67,7 @@ export const getPostById = async (
     const data = await getPostsById(parseInt(postId, 10));
     res.send(data);
   } catch (error) {
-    return next(error);
+    next(error);
   }
 };
 /**
