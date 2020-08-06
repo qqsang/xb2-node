@@ -1,6 +1,7 @@
 import express from "express";
 import { authGuard, accessControl } from "../auth/auth.middleware";
 import * as commentController from "./comment.controller";
+import { filter } from "./comment.middleware";
 const router = express.Router();
 /**
  * 定义发表评论的路由
@@ -35,6 +36,6 @@ router.delete(
 /**
  * 定义获取评论列表的路由
  */
-router.get("/comments", commentController.index);
+router.get("/comments", filter, commentController.index);
 
 export default router;
