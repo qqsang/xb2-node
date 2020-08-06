@@ -132,7 +132,10 @@ export const index = async (
   try {
     //获取评论列表
     //console.log(req.filter);
-    const comments = await getComments({ filter: req.filter });
+    const comments = await getComments({
+      filter: req.filter,
+      pagination: req.pagination,
+    });
 
     //作出响应
     res.send(comments);

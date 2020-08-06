@@ -21,5 +21,8 @@ export let { PRIVATE_KEY, PUBLIC_KEY } = process.env;
 PRIVATE_KEY = Buffer.from(PRIVATE_KEY, "base64").toString();
 PUBLIC_KEY = Buffer.from(PUBLIC_KEY, "base64").toString();
 
-//分页
+//内容分页
 export const POSTS_PER_PAGE = parseInt(process.env["POSTS_PER_PAGE"], 10);
+
+//评论分页
+export const COMMENTS_PER_PAGE = parseInt(process.env["COMMENTS_PER_PAGE"], 10);
