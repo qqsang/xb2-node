@@ -4,6 +4,7 @@ import {
   isReplayComment,
   updateComment,
   deleteComment,
+  getComments,
 } from "./comment.service";
 
 /**
@@ -115,6 +116,25 @@ export const destroy = async (
 
     //作出响应
     res.send(data);
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * 定义获取评论列表的接口处理器
+ */
+export const index = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    //获取评论列表
+    const comments = await getComments();
+
+    //作出响应
+    res.send(comments);
   } catch (error) {
     next(error);
   }

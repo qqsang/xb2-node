@@ -32,4 +32,9 @@ router.delete(
   commentController.destroy
 );
 
+/**
+ * 定义获取评论列表的路由
+ */
+router.get("/comments", commentController.index);
+
 export default router;
