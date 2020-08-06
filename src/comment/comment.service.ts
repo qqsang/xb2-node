@@ -129,3 +129,37 @@ export const getComments = async (options: GetCommentsOptions) => {
   //提供结果
   return data;
 };
+
+/**
+ * 统计评论数量
+ */
+export const getCommentsTotalCount = async (options: GetCommentsOptions) => {
+  //解构选项
+  const { filter } = options;
+
+  //sql参数
+  let params: Array<any> = [];
+
+  //设置sql参数
+  if (filter.param) {
+    params = [filter.param, ...params];
+  }
+
+  //准备查询
+  const statement = `
+    SELECT 
+      COUNT(DISTINCT comment.id) AS totalComments
+    FROM
+      comment
+    ${sqlFragment.leftjoinuser}
+    ${sqlFragment.leftjoinpost}
+    WHERE
+    ${filter.sql}
+  `;
+
+  //执行查询
+  const [data] = await connection.promise().query(statement, params);
+
+  //提供结果
+  return data[0].totalComments;
+};

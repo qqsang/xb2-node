@@ -5,6 +5,7 @@ import {
   updateComment,
   deleteComment,
   getComments,
+  getCommentsTotalCount,
 } from "./comment.service";
 
 /**
@@ -130,8 +131,18 @@ export const index = async (
   next: NextFunction
 ) => {
   try {
+    //统计评论数量
+    const totalcomments = await getCommentsTotalCount({ filter: req.filter });
+
+    //响应头部
+    res.header("X-Total-Count", totalcomments);
+  } catch (error) {
+    next(error);
+  }
+
+  try {
     //获取评论列表
-    //console.log(req.filter);
+    console.log(req.filter);
     const comments = await getComments({
       filter: req.filter,
       pagination: req.pagination,
