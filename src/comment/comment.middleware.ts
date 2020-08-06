@@ -25,6 +25,33 @@ export const filter = async (
       param: `${post}`,
     };
   }
+
+  //用户发布过的评论
+  if (user && action == "published" && !post) {
+    req.filter = {
+      name: "userPublished",
+      sql: "comment.parentId IS NULL AND comment.userId = ?",
+      param: `${user}`,
+    };
+  }
+
+  //用户回复过的评论
+  if (user && action == "replied" && !post) {
+    req.filter = {
+      name: "userReplied",
+      sql: "comment.parentId IS NOT NULL AND comment.userId = ?",
+      param: `${user}`,
+    };
+  }
+
+  //用户发布和回复过的评论
+  if (user && action == "pubrep" && !post) {
+    req.filter = {
+      name: "userPubrep",
+      sql: "comment.userId = ?",
+      param: `${user}`,
+    };
+  }
   //下一步
   next();
 };
