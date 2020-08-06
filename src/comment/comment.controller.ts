@@ -6,6 +6,7 @@ import {
   deleteComment,
   getComments,
   getCommentsTotalCount,
+  getCommentReplies,
 } from "./comment.service";
 
 /**
@@ -150,6 +151,30 @@ export const index = async (
 
     //作出响应
     res.send(comments);
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * 定义获取评论的回复列表处理器
+ */
+export const indexReplies = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  //解构参数
+  const { commentId } = req.params;
+
+  try {
+    //获取评论内容的回复列表
+    const replies = await getCommentReplies({
+      commentId: parseInt(commentId, 10),
+    });
+
+    //作出响应
+    res.send(replies);
   } catch (error) {
     next(error);
   }

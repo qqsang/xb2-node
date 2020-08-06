@@ -163,3 +163,39 @@ export const getCommentsTotalCount = async (options: GetCommentsOptions) => {
   //提供结果
   return data[0].totalComments;
 };
+
+/**
+ * 获取评论回复列表的参数
+ */
+interface GetCommentRepliesOptions {
+  commentId: number;
+}
+
+/**
+ * 定义获取评论回复列表的服务
+ */
+export const getCommentReplies = async (options: GetCommentRepliesOptions) => {
+  //解构参数
+  const { commentId } = options;
+
+  //准备查询
+  const statement = `
+    SELECT
+      comment.id,
+      comment.content,
+      ${sqlFragment.user}
+    FROM
+      comment
+    ${sqlFragment.leftjoinuser}
+    WHERE
+      comment.parentId = ?
+    GROUP BY
+      comment.id
+  `;
+
+  //执行查询
+  const [data] = await connection.promise().query(statement, commentId);
+
+  //提供结果
+  return data;
+};

@@ -45,4 +45,9 @@ router.get(
   commentController.index
 );
 
+/**
+ * 定义评论的回复列表路由
+ */
+router.get("/comments/:commentId/replies", commentController.indexReplies);
+
 export default router;
