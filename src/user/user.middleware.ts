@@ -4,12 +4,13 @@
 import { Request, Response, NextFunction } from "express";
 //导入nodejs原生态的hash包bcrypt
 import bcrypt from "bcrypt";
+import _ from "lodash";
 import * as userService from "./user.service";
 
 /**
  * 定义一个中间件，验证注册用户的数据
  */
-export const validataUserData = async (
+export const validateUserData = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -41,4 +42,58 @@ export const hashPassword = async (
   //用bcrypt包的hash方法加密用户的password
   req.body.password = await bcrypt.hash(password, 10);
   next();
+};
+
+/**
+ * 创建验证更新用户数据中间件
+ */
+export const validateUserUpdateData = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  //获取用户更新的数据
+  const { validate, update } = req.body;
+
+  //获取当前用户
+  const { id: userId } = req.user;
+
+  try {
+    //检查用户是否提供了密码
+    if (!_.has(validate, "password")) {
+      return next(new Error("PASSWORD_IS_REQUIRED"));
+    }
+
+    //获取用户数据
+    const user = await userService.getUserById(userId, { password: true });
+
+    //验证用户密码是否匹配
+    const matched = await bcrypt.compare(validate.password, user.password);
+
+    //如果不匹配
+    if (!matched) {
+      return next(new Error("PASSWORD_DOES_NOT_MATCH"));
+    }
+
+    //检查用户名是否被占用
+    if (update.user) {
+      const user = await userService.getUserByName(update.user);
+      if (user) {
+        return next(new Error("USER_ALREADY_EXIST"));
+      }
+    }
+
+    //处理用户更新的密码
+    if (update.password) {
+      const matched = await bcrypt.compare(update.password, user.password);
+      if (matched) {
+        return next(new Error("PASSWORD_IS_THE_SAME"));
+      }
+    }
+
+    //hash密码
+    req.body.update.password = await bcrypt.hash(update.password, 10);
+  } catch (error) {
+    return next(error);
+  }
 };
