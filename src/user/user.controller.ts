@@ -20,3 +20,25 @@ export const store = async (
   //作出响应
   res.status(201).send(data);
 };
+
+/**
+ * 用户账户
+ */
+export const show = async (req: Request, res: Response, next: NextFunction) => {
+  //获取数据
+  const { userId } = req.params;
+
+  //调取用户
+  try {
+    const user = await userService.getUserById(parseInt(userId, 10));
+
+    if (!user) {
+      return next(new Error("USER_NOT_FOUND"));
+    }
+
+    //作出响应
+    res.send(user);
+  } catch (error) {
+    next(error);
+  }
+};

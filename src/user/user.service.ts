@@ -26,25 +26,39 @@ interface GetUserOptions {
 }
 
 /**
- * 定义一个接口，验证注册的用户名是否存在
+ * 获取用户
  */
-export const getUserByName = async (
-  name: string,
-  //给可选参数一个默认空值
-  options: GetUserOptions = {}
-) => {
-  //从上面定义的GetUserOptions拿点东西进来
-  const { password } = options;
-  //准备一条sql查询
-  const statement = `
-  SELECT 
-    id,
-    name
-    ${password ? ",password" : ""}
-  FROM user
-  WHERE name =?`;
-  //执行查询
-  const [data] = await connection.promise().query(statement, name);
-  //返回查询到到结果
-  return data[0];
+export const getUser = (conditions: string) => {
+  return async (
+    param: string | number,
+    //给可选参数一个默认空值
+    options: GetUserOptions = {}
+  ) => {
+    //从上面定义的GetUserOptions拿点东西进来
+    const { password } = options;
+    //准备一条sql查询
+    const statement = `
+    SELECT 
+      user.id,
+      user.name,
+      IF(COUNT(avatar.id),1,null) AS avatar
+      ${password ? ",password" : ""}
+    FROM user
+    LEFT JOIN avatar ON avatar.userId = user.id
+    WHERE ${conditions} =?`;
+    //执行查询
+    const [data] = await connection.promise().query(statement, param);
+    //返回查询到到结果
+    return data[0].id ? data[0] : null;
+  };
 };
+
+/**
+ * 按用户id查找用户
+ */
+export const getUserById = getUser("user.id");
+
+/**
+ * 按用户名查找用户
+ */
+export const getUserByName = getUser("user.name");
