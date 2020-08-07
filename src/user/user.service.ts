@@ -62,3 +62,24 @@ export const getUserById = getUser("user.id");
  * 按用户名查找用户
  */
 export const getUserByName = getUser("user.name");
+
+/**
+ * 更新用户
+ */
+export const updateUser = async (userId: number, userDate: userModel) => {
+  //准备查询
+  const statement = `
+  UPDATE user
+  SET ?
+  WHERE user.id = ?
+  `;
+
+  //sql参数
+  const param = [userDate, userId];
+
+  //执行查询
+  const [data] = await connection.promise().query(statement, param);
+
+  //提供结果
+  return data;
+};
