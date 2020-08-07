@@ -30,7 +30,9 @@ export const show = async (req: Request, res: Response, next: NextFunction) => {
 
   //调取用户
   try {
-    const user = await userService.getUserById(parseInt(userId, 10));
+    const user = await userService.getUserById(parseInt(userId, 10), {
+      password: true,
+    });
 
     if (!user) {
       return next(new Error("USER_NOT_FOUND"));
