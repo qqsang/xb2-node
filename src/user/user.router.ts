@@ -1,7 +1,12 @@
 import express from "express";
 import * as userController from "./user.controller";
 //导入验证用户的中间件，这个是自己定义好的。
-import { validateUserData, hashPassword } from "../user/user.middleware";
+import {
+  validateUserData,
+  hashPassword,
+  validateUserUpdateData,
+} from "../user/user.middleware";
+import { authGuard } from "../auth/auth.middleware";
 //创建路由
 const router = express.Router();
 
@@ -17,6 +22,16 @@ router.post("/users", validateUserData, hashPassword, userController.store);
  * 获取用户
  */
 router.get("/user/:userId", userController.show);
+
+/**
+ * 更新用户
+ */
+router.patch(
+  "/users",
+  authGuard,
+  validateUserUpdateData,
+  userController.update
+);
 
 //导出路由
 export default router;

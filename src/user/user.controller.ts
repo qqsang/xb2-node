@@ -2,7 +2,7 @@
  * 定义用户的控制器
  */
 import { Request, Response, NextFunction } from "express";
-import { userModel } from "./user.model";
+import _ from "lodash";
 import * as userService from "./user.service";
 /**
  * 创建用户
@@ -40,6 +40,31 @@ export const show = async (req: Request, res: Response, next: NextFunction) => {
 
     //作出响应
     res.send(user);
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * 更新用户的接口处理器
+ */
+export const update = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  //获取当前用户
+  const { id } = req.user;
+
+  //获取用户更新数据
+  const userDate = _.pick(req.body.update, ["name", "password"]);
+
+  try {
+    //更新用户
+    const data = await userService.updateUser(id, userDate);
+
+    //作出响应
+    res.send(data);
   } catch (error) {
     next(error);
   }

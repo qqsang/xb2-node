@@ -72,12 +72,12 @@ export const validateUserUpdateData = async (
 
     //如果不匹配
     if (!matched) {
-      return next(new Error("PASSWORD_DOES_NOT_MATCH"));
+      return next(new Error("PASSWORD_DOES_NOT_MATCHED"));
     }
 
     //检查用户名是否被占用
-    if (update.user) {
-      const user = await userService.getUserByName(update.user);
+    if (update.name) {
+      const user = await userService.getUserByName(update.name);
       if (user) {
         return next(new Error("USER_ALREADY_EXIST"));
       }
@@ -96,4 +96,7 @@ export const validateUserUpdateData = async (
   } catch (error) {
     return next(error);
   }
+
+  //下一步
+  next();
 };
