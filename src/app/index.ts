@@ -11,6 +11,7 @@ import tagRouter from "../tag/tag.router";
 import avatarRouter from "../avatar/avatar.router";
 import commentRouter from "../comment/comment.router";
 import likeRouter from "../like/like.router";
+import appRouter from "./app.router";
 import { defaultErrorHandler } from "../app/app.middleware";
 /**
  * 创建应用
@@ -36,7 +37,8 @@ app.use(
   tagRouter,
   avatarRouter,
   commentRouter,
-  likeRouter
+  likeRouter,
+  appRouter
 );
 app.use(defaultErrorHandler);
 export default app;
