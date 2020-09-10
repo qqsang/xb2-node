@@ -83,3 +83,15 @@ export const updateUser = async (userId: number, userDate: userModel) => {
   //提供结果
   return data;
 };
+
+/**
+ * 删除用户
+ */
+export const deleteUser = async (userId: number) => {
+  const statement = `
+    DELETE FROM user
+    WHERE id = ?
+  `;
+  const [data] = await connection.promise().query(statement, userId);
+  return data;
+};
