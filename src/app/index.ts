@@ -12,6 +12,7 @@ import avatarRouter from "../avatar/avatar.router";
 import commentRouter from "../comment/comment.router";
 import likeRouter from "../like/like.router";
 import appRouter from "./app.router";
+import cors from 'cors';
 import { defaultErrorHandler } from "../app/app.middleware";
 /**
  * 创建应用
@@ -26,6 +27,10 @@ const app = express();
 app.use(express.json());
 
 /**
+ * CORS 解决跨域
+ */
+app.use(cors());
+/**
  * 路由
  */
 
@@ -38,7 +43,7 @@ app.use(
   avatarRouter,
   commentRouter,
   likeRouter,
-  appRouter
+  appRouter,
 );
 app.use(defaultErrorHandler);
 export default app;
